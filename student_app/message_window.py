@@ -11,10 +11,7 @@ class MessageWindow(tk.Toplevel):
         self.configure(bg="#121212")
         self.resizable(False, False)
 
-        # Окно всегда поверх остальных программ
-        self.attributes("-topmost", True)
-
-        # Текст сообщения
+        # Элементы интерфейса
         lbl_msg = tk.Label(
             self,
             text=text,
@@ -26,7 +23,6 @@ class MessageWindow(tk.Toplevel):
         )
         lbl_msg.pack(expand=True, padx=20, pady=(20, 10))
 
-        # Контрастная белая кнопка ОК
         btn_ok = tk.Button(
             self,
             text="ОК",
@@ -40,3 +36,11 @@ class MessageWindow(tk.Toplevel):
             command=self.destroy,
         )
         btn_ok.pack(pady=(0, 20))
+
+        # ГАРАНТИЯ ОТОБРАЖЕНИЯ ПОВЕРХ ВСЕХ ОКНО ОС:
+        self.update_idletasks()
+        self.attributes("-topmost", True)  # Поверх всех окон
+        self.deiconify()                  # Показать, если скрыто
+        self.lift()                       # Поднять наверх
+        self.focus_force()                # Принудительный фокус
+        self.grab_set()                   # Блокировать клики по главному окну, пока не нажмут ОК
